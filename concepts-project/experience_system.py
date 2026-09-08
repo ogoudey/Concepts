@@ -27,8 +27,8 @@ class Experience(BaseModel):
     input_system: InputSystem
 
     @classmethod
-    def create(cls) -> "Experience":
-        return ExperienceWizard.run(cls)
+    def create(cls, hub_client: str) -> "Experience":
+        return ExperienceWizard.run(cls, hub_client=hub_client)
 
     def save_to(self, path: Path | str) -> None:
         if isinstance(path, str):
@@ -46,16 +46,17 @@ class Experience(BaseModel):
 class ExperienceWizard:
     HELP_TOKEN = "?"
     @classmethod
-    def run(cls, model_cls: type[BaseModel]) -> BaseModel:
+    def run(cls, model_cls: type[BaseModel], **prefilled) -> BaseModel:
         print("Welcome to the Experience Wizard!")
         print("This wizard will help you create a new experience file.")
         print("Please answer the following questions to the best of your ability.\n")
-        return cls.build_model(model_cls)
+        return cls.build_model(model_cls, , prefilled=prefilled)
 
  # ---- core recursion -------------------------------------------------
 
     @classmethod
-    def build_model(cls, model_cls: type[BaseModel]) -> BaseModel:
+    def build_model(cls, model_cls: type[BaseModel], prefilled: dict[str, Any] | None = None) -> BaseModel:
+        prefilled = prefilled or {}
         # Escape hatch: a model can define its own `ask()` classmethod
         # for bespoke / conditional logic instead of generic reflection.
         if hasattr(model_cls, "ask"):
@@ -63,6 +64,10 @@ class ExperienceWizard:
 
         values = {}
         for name, field in model_cls.model_fields.items():
+            if name in prefilled:
+                print(f"-- Using provided value for '{name}': {prefilled[name]!r} --")
+                values[name] = prefilled[name]
+                continue
             values[name] = cls.ask_for_field(name, field.annotation, field)
         return model_cls(**values)
 
