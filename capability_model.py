@@ -1,6 +1,7 @@
-from typing import Dict, Iterator
-from pydantic import BaseModel
 from __future__ import annotations
+
+from typing import Dict, Iterator, List, Union, Tuple
+from pydantic import BaseModel
 
 class RootIntegratedInputSchema(BaseModel):
     pass
@@ -77,5 +78,6 @@ class ActionMapping(BaseModel):
 
 class InputSystem(BaseModel):
     inputs: RootIntegratedOutputSchema
+    action_mapping: ActionMapping
 
 

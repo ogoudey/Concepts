@@ -1,14 +1,14 @@
-from typing import Dict, Iterator, Union, override
-from dataclasses import dataclass, field
+from typing import Dict, Iterator, Optional, Union, override
+from dataclasses import dataclass, Field
+from capability_model import Action
+from pydantic import BaseModel, Field, field_serializer, field_validator
 
-@dataclass
-class ComputeEnvironment:
+class ComputeEnvironment(BaseModel):
     pass
     @property
     def get_type(self) -> str:
         return ""
 
-@dataclass
 class HumanBrain(ComputeEnvironment):
     pass
     @property
@@ -16,7 +16,6 @@ class HumanBrain(ComputeEnvironment):
     def get_type(self) -> str:
         return "human brain"
 
-@dataclass
 class Computer(ComputeEnvironment):
     pass
     @property
@@ -25,7 +24,6 @@ class Computer(ComputeEnvironment):
         return "computer (of unknown type)"
 
 # intervening robot class?
-@dataclass
 class Robot(Computer):
     pass
     @property
@@ -34,7 +32,6 @@ class Robot(Computer):
         return "robot (mini-PC + robot)"
 
 # intervening robot class?
-@dataclass
 class KinovaWithExternalCamera(Robot):
     pass
     @property
@@ -42,33 +39,32 @@ class KinovaWithExternalCamera(Robot):
     def get_type(self) -> str:
         return "kinova with an external camera in a particular position"
 
-@dataclass
-class Other:
-    pass
 
-@dataclass
+class Command(BaseModel):
+    model_config = {"frozen": True}
+    id: str
+
+class Cause(BaseModel):
+    model_config = {"frozen": True}
+    id: str
+
+class Action(BaseModel):
+    model_config = {"frozen": True}
+    #valuse: str
+    value: Union[str, 'Other']
+
+
+class Other(BaseModel):
+    #causal_mapping: Dict[Cause, Action] = Field(default_factory=dict)
+    command_bindings: Dict[Command, Action] = Field(default_factory=dict)
+    def __getitem__(self, key: Command) -> Action:
+        if key in self.command_bindings:
+            return self.command_bindings[key]
+        raise KeyError(f"Command '{key}' is not mapped to an Action.")
+
+
 class Ego(Other):
-    compute_environment: ComputeEnvironment = ComputeEnvironment()
-
-
-@dataclass
-class Command:
-    pass
-
-@dataclass
-class Cause:
-    pass
-
-@dataclass
-class Action:
-    value: Union[str, Other]
-
-
-@dataclass
-class RootEgo(Ego):
-    compute_environment: Optional[ComputeEnvironment]
-    command_bindings: Dict[Command, Cause]
-    causal_mapping: Dict[Cause, Action] = field(default_factory=dict)
+    causal_mapping: Dict[Cause, Action] = Field(default_factory=dict)
 
     def __getitem__(self, key: Union[Command, Cause]) -> Action:
         # Direct lookup if key is a Cause
@@ -85,8 +81,14 @@ class RootEgo(Ego):
         raise KeyError(f"Key '{key}' is neither a recognized Command nor Cause.")
 
 
-@dataclass
-class RootDevice:
+class RootEgo(Ego):
+    pass
+
+class RootDevice(BaseModel):
     compute_environment: ComputeEnvironment
     ego: RootEgo
+    next: Optional['RootDevice'] = None  # Optional reference to the next device in the chain
 
+RootDevice.model_rebuild()
+Action.model_rebuild()
+RootEgo.model_rebuild(force=True)
