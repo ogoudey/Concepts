@@ -26,8 +26,8 @@ class Experience(BaseModel):
     input_system: InputSystem
 
     @classmethod
-    def create(cls, hub_client: str) -> "Experience":
-        return ExperienceWizard.run(cls, hub_client=hub_client)
+    def create(cls, prefilled: dict[str, Any]) -> "Experience":
+        return ExperienceWizard.run(cls, **prefilled)
 
     def save_to(self, path: Path | str) -> None:
         if isinstance(path, str):
