@@ -4,8 +4,8 @@ from importlib.resources import path
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List
-from trust_model import Other, Ego, RootDevice
-from capability_model import InputSystem, RootModel
+from .trust_model import Other, Ego, RootDevice
+from .capability_model import InputSystem, RootModel
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from typing import get_origin, get_args, Union, Literal, Any
