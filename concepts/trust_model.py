@@ -1,6 +1,6 @@
 from typing import Dict, Iterator, Optional, Union, override
 from dataclasses import dataclass, Field
-from capability_model import Action
+from .capability_model import Action
 from pydantic import BaseModel, Field, field_serializer, field_validator
 
 class ComputeEnvironment(BaseModel):

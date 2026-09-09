@@ -1,4 +1,3 @@
-
 from enum import Enum
 from importlib.resources import path
 from pathlib import Path
