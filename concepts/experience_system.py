@@ -50,7 +50,7 @@ class ExperienceWizard:
         print("Welcome to the Experience Wizard!")
         print("This wizard will help you create a new experience file.")
         print("Please answer the following questions to the best of your ability.\n")
-        return cls.build_model(model_cls, , prefilled=prefilled)
+        return cls.build_model(model_cls, prefilled=prefilled)
 
  # ---- core recursion -------------------------------------------------
 
