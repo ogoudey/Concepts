@@ -2,7 +2,7 @@ from enum import Enum
 from importlib.resources import path
 from pathlib import Path
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 from .trust_model import Other, Ego, RootDevice
 from .capability_model import InputSystem, RootModel
 from pydantic import BaseModel
@@ -26,8 +26,8 @@ class Experience(BaseModel):
     input_system: InputSystem
 
     @classmethod
-    def create(cls, prefilled: dict[str, Any]) -> "Experience":
-        return ExperienceWizard.run(cls, **prefilled)
+    def create(cls, prefilled: Optional[dict[str, Any]]=None) -> "Experience":
+        return ExperienceWizard.run(cls, **prefilled) if prefilled else ExperienceWizard.run(cls)
 
     def save_to(self, path: Path | str) -> None:
         if isinstance(path, str):
