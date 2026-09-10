@@ -1,11 +1,10 @@
-
 from enum import Enum
 from importlib.resources import path
 from pathlib import Path
 from dataclasses import dataclass
-from typing import List
-from trust_model import Other, Ego, RootDevice
-from capability_model import InputSystem, RootModel
+from typing import List, Optional
+from .trust_model import Other, Ego, RootDevice
+from .capability_model import InputSystem, RootModel
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
 from typing import get_origin, get_args, Union, Literal, Any
@@ -27,8 +26,8 @@ class Experience(BaseModel):
     input_system: InputSystem
 
     @classmethod
-    def create(cls, hub_client: str) -> "Experience":
-        return ExperienceWizard.run(cls, hub_client=hub_client)
+    def create(cls, prefilled: Optional[dict[str, Any]]=None) -> "Experience":
+        return ExperienceWizard.run(cls, **prefilled) if prefilled else ExperienceWizard.run(cls)
 
     def save_to(self, path: Path | str) -> None:
         if isinstance(path, str):
@@ -50,7 +49,7 @@ class ExperienceWizard:
         print("Welcome to the Experience Wizard!")
         print("This wizard will help you create a new experience file.")
         print("Please answer the following questions to the best of your ability.\n")
-        return cls.build_model(model_cls, , prefilled=prefilled)
+        return cls.build_model(model_cls, prefilled=prefilled)
 
  # ---- core recursion -------------------------------------------------
 
