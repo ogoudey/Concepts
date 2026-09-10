@@ -1,6 +1,6 @@
 from typing import Dict, Iterator, Optional, Union, override
 from dataclasses import dataclass, Field
-from .capability_model import Action
+from capability_model import Action
 from pydantic import BaseModel, Field, field_serializer, field_validator
 
 
@@ -15,7 +15,7 @@ class Cause(BaseModel):
 class Action(BaseModel):
     model_config = {"frozen": True}
     #valuse: str
-    value: Union[str, 'Other']
+    value: Union[str, 'Other', 'Ego', 'RootEgo', 'ComputeEnvironment', 'HumanBrain', 'Computer']  # Add other types as needed
 
 
 class Other(BaseModel):
