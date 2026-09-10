@@ -11,6 +11,7 @@ class ExperienceStructure(BaseModel):
 class SharedExperience(BaseModel):
     experiencers: List[Tuple[Experiencer, ExperienceFormat]]
     structure: ExperienceStructure
+
 from .capability_model import RootIntegratedOutput, RootIntegratedInput
 from .capability_model import ActionMapping, Input, Action
 from .experience_format import ExperienceFormat
@@ -25,7 +26,7 @@ experience = SharedExperience(
             compute_environment=HumanBrain(
                 name="olin2822",
                 ego=Ego(
-                    codebase="unknown",
+                    codebase="human_nature",
                     experience_dna=ExperienceDNA(
                         value="human"
                     )

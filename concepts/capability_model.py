@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Dict, Iterator, List, Union, Tuple, Optional
 from pydantic import BaseModel
+import rich
 
 class RootIntegratedInput(BaseModel):
     description: str
@@ -71,6 +72,68 @@ class ActionMapping(BaseModel):
         return default
     
 class CapabilityModel(BaseModel):
+    """
+    Loosely models an input-output system, action-forward-ly.
+
+    Forms (one of many in) an aspect of an experience.
+    """
     inputs: List[RootIntegratedInput]
     outputs: List[RootIntegratedOutput]
     action_mappings: List[ActionMapping]
+
+    def show(self):
+        rich.print(self)
+
+# ------------ Exampels ---------------- #
+kinova_vla_capability_model = \
+CapabilityModel(
+    inputs=[
+        RootIntegratedInput(
+            description="the perceptual inputs from cameras and kinova and the governing language"
+        )
+    ],
+    outputs=[
+        RootIntegratedOutput(
+            description="the actions of the kinova"
+        )
+    ],
+    action_mappings=[
+        ActionMapping(
+            mapping=[
+                (Input(
+                    description="whatever the root outputs are"
+                ),
+                Action(
+                    description="kinova actions"
+                ))
+            ]      
+        )
+    ]
+)
+
+
+groot_server_capability_model = \
+CapabilityModel(
+    inputs=[
+        RootIntegratedInput(
+            description="groot inputs"
+        )
+    ],
+    outputs=[
+        RootIntegratedOutput(
+            description="groot outputs"
+        )
+    ],
+    action_mappings=[
+        ActionMapping(
+            mapping=[
+                (Input(
+                    description="whatever the root outputs are"
+                ),
+                Action(
+                    description="kinova actions"
+                ))
+            ]
+        )
+    ]
+)
