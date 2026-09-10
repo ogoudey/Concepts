@@ -3,42 +3,6 @@ from dataclasses import dataclass, Field
 from capability_model import Action
 from pydantic import BaseModel, Field, field_serializer, field_validator
 
-class ComputeEnvironment(BaseModel):
-    pass
-    @property
-    def get_type(self) -> str:
-        return ""
-
-class HumanBrain(ComputeEnvironment):
-    pass
-    @property
-    @override
-    def get_type(self) -> str:
-        return "human brain"
-
-class Computer(ComputeEnvironment):
-    pass
-    @property
-    @override
-    def get_type(self) -> str:
-        return "computer (of unknown type)"
-
-# intervening robot class?
-class Robot(Computer):
-    pass
-    @property
-    @override
-    def get_type(self) -> str:
-        return "robot (mini-PC + robot)"
-
-# intervening robot class?
-class KinovaWithExternalCamera(Robot):
-    pass
-    @property
-    @override
-    def get_type(self) -> str:
-        return "kinova with an external camera in a particular position"
-
 
 class Command(BaseModel):
     model_config = {"frozen": True}
@@ -46,7 +10,7 @@ class Command(BaseModel):
 
 class Cause(BaseModel):
     model_config = {"frozen": True}
-    id: str
+    id: Optional[str] = None
 
 class Action(BaseModel):
     model_config = {"frozen": True}
@@ -80,13 +44,69 @@ class Ego(Other):
 
         raise KeyError(f"Key '{key}' is neither a recognized Command nor Cause.")
 
-
 class RootEgo(Ego):
     pass
 
+class ComputeEnvironment(BaseModel):
+    code: Optional[Other] = None
+    static: bool = False # or, leaf
+
+    @property
+    def get_type(self) -> str:
+        return ""
+    
+    @property
+    def get_id(self) -> str:
+        return ""
+
+class HumanBrain(ComputeEnvironment):
+    name: str
+    static: bool = True
+    
+    @property
+    @override
+    def get_type(self) -> str:
+        return "human brain"
+    @property
+    @override
+    def get_id(self) -> str:
+        return self.name
+class Computer(ComputeEnvironment):
+    static: bool = True
+    def _get_id(self):
+        for path in ["/etc/machine-id", "/var/lib/dbus/machine-id"]:
+            try:
+                with open(path, "r") as f:
+                    return f.read().strip()
+            except FileNotFoundError:
+                continue
+        return None
+    @property
+    @override
+    def get_type(self) -> str:
+        return "computer (of unknown type)"
+    
+    @override
+    def get_id(self) -> str:
+        return self._get_id()
+
+# intervening robot class?
+class Robot(Computer):
+    pass
+    @property
+    @override
+    def get_type(self) -> str:
+        return "robot (often mini-PC + robot)"
+
+class KinovaWithExternalCamera(Robot):
+    
+    @property
+    @override
+    def get_type(self) -> str:
+        return "kinova with an external camera in a particular position"
+
 class RootDevice(BaseModel):
     compute_environment: ComputeEnvironment
-    ego: RootEgo
     next: Optional['RootDevice'] = None  # Optional reference to the next device in the chain
 
 RootDevice.model_rebuild()
