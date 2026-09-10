@@ -1,33 +1,27 @@
 from __future__ import annotations
 
-from typing import Dict, Iterator, List, Union, Tuple
+from typing import Dict, Iterator, List, Union, Tuple, Optional
 from pydantic import BaseModel
 
-class RootIntegratedInputSchema(BaseModel):
-    pass
+class RootIntegratedInput(BaseModel):
+    description: str
 
-class RootIntegratedOutputSchema(BaseModel):
-    pass
+class RootIntegratedOutput(BaseModel):
+    description: str
 
 
 class InputModel(BaseModel):
-    integrated_schema: RootIntegratedInputSchema
+    integrated_schema: RootIntegratedInput
 
 
 class OutputModel(BaseModel):
-    integrated_schema: RootIntegratedOutputSchema
-
-
-class RootModel(BaseModel):
-    inputs: InputModel
-    outputs: OutputModel
-
+    integrated_schema: RootIntegratedOutput
+ 
 class Input(BaseModel):
-    id: str
-
+    description: str
 
 class Action(BaseModel):
-    value: Union[str, RootIntegratedInputSchema]
+    description: str
 
 class ActionMapping(BaseModel):
     mapping: List[Tuple[Input, Action]] = []
@@ -75,9 +69,8 @@ class ActionMapping(BaseModel):
             if k == key:
                 return v
         return default
-
-class InputSystem(BaseModel):
-    inputs: RootIntegratedOutputSchema
-    action_mapping: ActionMapping
-
-
+    
+class CapabilityModel(BaseModel):
+    inputs: List[RootIntegratedInput]
+    outputs: List[RootIntegratedOutput]
+    action_mappings: List[ActionMapping]

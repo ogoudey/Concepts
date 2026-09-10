@@ -3,7 +3,7 @@ from importlib.resources import path
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Optional
-from .trust_model import Other, Ego, RootDevice
+from .compute_environment import Other, Ego, RootDevice
 from .capability_model import InputSystem, RootModel
 from pydantic import BaseModel
 from pydantic_core import PydanticUndefined
@@ -11,36 +11,6 @@ from typing import get_origin, get_args, Union, Literal, Any
 from types import UnionType
 from enum import Enum
 import questionary
-
-class ExperienceFormat(Enum):
-    UNKNOWN="unknown"
-    TIDYBOT2="tidybot2"
-    LEROBOTV2="lerobotv2"
-    LEROBOTV3="lerobotv3"
-
-class Experience(BaseModel):
-    hub_client: str
-    experience_format: ExperienceFormat
-    trust_structure: RootDevice
-    capability_model: RootModel
-    input_system: InputSystem
-
-    @classmethod
-    def create(cls, prefilled: Optional[dict[str, Any]]=None) -> "Experience":
-        return ExperienceWizard.run(cls, **prefilled) if prefilled else ExperienceWizard.run(cls)
-
-    def save_to(self, path: Path | str) -> None:
-        if isinstance(path, str):
-            path = Path(path)
-        if path.suffix != ".json":
-            path = path.with_suffix(".json")
-        path.write_text(self.model_dump_json(indent=2))
-
-    @staticmethod
-    def detect_format(directory: Path) -> ExperienceFormat:
-        if not directory.is_dir():
-            raise ValueError(f"Directory is not a directory, cannot detect experience format.")
-        return ExperienceFormat.UNKNOWN
 
 class ExperienceWizard:
     HELP_TOKEN = "?"
