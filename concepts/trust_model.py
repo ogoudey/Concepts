@@ -60,7 +60,7 @@ class ComputeEnvironment(BaseModel):
         return ""
 
 class HumanBrain(ComputeEnvironment):
-    name: str
+    name: Optional[str] = None # means that the wizard will fill it in.
     static: bool = True
     
     @property
