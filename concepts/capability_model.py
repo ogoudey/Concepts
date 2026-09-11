@@ -88,7 +88,7 @@ class CapabilityModel(BaseModel):
 # ------------ Exampels ---------------- #
 kinova_vla_capability_model = \
 CapabilityModel(
-    id="kinova_vla"
+    id="kinova_vla",
     inputs=[
         RootIntegratedInput(
             description="the perceptual inputs from cameras and kinova and the governing language"
