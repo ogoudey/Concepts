@@ -1,6 +1,6 @@
 from typing import Dict, Iterator, Optional, Union, override
 from dataclasses import dataclass, Field
-from .capability_model import Action, CapabilityModel
+from .capability_model import CapabilityModel
 from pydantic import BaseModel, Field, field_serializer, field_validator
 
 from .ego import Ego
