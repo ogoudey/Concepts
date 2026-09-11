@@ -4,9 +4,9 @@ from typing import get_origin, get_args, Union, Literal, Any, Tuple, List
 from .experiencer import Experiencer
 from .experience_format import ExperienceFormat
 from .capability_model import CapabilityModel
-
+from .compute_environment import ComputeEnvironment
 class ExperienceStructure(BaseModel):
-    models: List[CapabilityModel]
+    compute_environments: List[ComputeEnvironment]
 
 class SharedExperience(BaseModel):
     experiencers: List[Tuple[Experiencer, ExperienceFormat]]
@@ -33,34 +33,37 @@ experience = SharedExperience(
         ), ExperienceFormat.UNKNOWN)
     ],
     structure=ExperienceStructure(
-        models=[
-            CapabilityModel(
-                compute_environment=HumanBrain(
-                    id="olin2822"
-                ),
-                inputs=[
-                    RootIntegratedInput(
-                        description="everything that's an input to a human brain"
-                    )
-                ],
-                outputs=[
-                    RootIntegratedOutput(
-                        description="everything that's an output of (root) human brain"
-                    )
-                ],
-                action_mappings=[
-                    ActionMapping(
-                        mapping=[
-                            (Input(
-                                description="what I output"
-                            ),
-                            Action(
-                                description="that actually does anything (e.g. finger taps)"
-                            ))
+        compute_environments=[
+            HumanBrain(
+                id="olin2822"
+                capability_models=[
+                    CapabilityModel(
+                        inputs=[
+                            RootIntegratedInput(
+                                description="everything that's an input to a human brain"
+                            )
+                        ],
+                        outputs=[
+                            RootIntegratedOutput(
+                                description="everything that's an output of (root) human brain"
+                            )
+                        ],
+                        action_mappings=[
+                            ActionMapping(
+                                mapping=[
+                                    (Input(
+                                        description="what I output"
+                                    ),
+                                    Action(
+                                        description="that actually does anything (e.g. finger taps)"
+                                    ))
+                                ]
+                            )
                         ]
                     )
                 ]
             )
+            
         ]
     )
 )

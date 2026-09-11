@@ -1,13 +1,13 @@
 from typing import Dict, Iterator, Optional, Union, override
 from dataclasses import dataclass, Field
-from .capability_model import Action
+from .capability_model import Action, CapabilityModel
 from pydantic import BaseModel, Field, field_serializer, field_validator
 
 from .ego import Ego
 
 class ComputeEnvironment(BaseModel):
     static: bool = False # or, leaf
-
+    capability_models: Optional[List[CapabilityModel]] = None
     @property
     def get_type(self) -> str:
         return ""

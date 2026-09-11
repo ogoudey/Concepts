@@ -4,7 +4,8 @@ from typing import Dict, Iterator, Optional, Union, override
 class Computer(ComputeEnvironment):
     static: bool = True
 
-    def _get_id(self):
+    @staticmethod
+    def identify(self):
         for path in ["/etc/machine-id", "/var/lib/dbus/machine-id"]:
             try:
                 with open(path, "r") as f:
@@ -21,7 +22,7 @@ class Computer(ComputeEnvironment):
     @property
     @override
     def get_id(self) -> str:
-        return self._get_id()
+        return Computer.identify()
 
 class KinovaWithExternalCamera(Computer):
     pass

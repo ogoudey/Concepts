@@ -7,10 +7,10 @@ from .experience_dna import ExperienceDNA
 class Ego(BaseModel):
     codebase: Optional[str]
     capability_ids: List[str]
-    experience_dna: ExperienceDNA
+    experience_dna: Optional[ExperienceDNA]
 
 class HumanEgo(BaseModel):
     codebase: Optional[str]
     capability_ids: List[str]
-    experience_dna: ExperienceDNA
+    experience_dna: Optional[ExperienceDNA]
     name: str
