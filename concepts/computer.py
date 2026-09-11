@@ -1,4 +1,4 @@
-from compute_environment import ComputeEnvironment
+from .compute_environment import ComputeEnvironment
 from typing import Dict, Iterator, Optional, Union, override
 
 class Computer(ComputeEnvironment):
