@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Tuple
 class NodeConfig(BaseModel):
     """
     Represents the network configuration for a computer.
@@ -11,4 +11,4 @@ class NodeConfig(BaseModel):
     command: List[str]
 
 class NetworkConfig(BaseModel):
-    nodes: List[NodeConfig] = []
+    nodes: List[Tuple[str, NodeConfig]] = []
