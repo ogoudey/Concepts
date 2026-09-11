@@ -1,4 +1,4 @@
-from typing import Dict, Iterator, Optional, Union, override
+from typing import Dict, Iterator, Optional, Union, override, List
 from dataclasses import dataclass, Field
 from .capability_model import CapabilityModel
 from pydantic import BaseModel, Field, field_serializer, field_validator
