@@ -1,6 +1,6 @@
-from .compute_environment import ComputeEnvironment
+from .ego import Ego
 from typing import Optional
 from pydantic import BaseModel
 class Experiencer(BaseModel):
-    compute_environment: ComputeEnvironment
+    ego: Ego
     
