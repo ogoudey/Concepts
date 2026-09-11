@@ -1,6 +1,6 @@
-from .ego import Ego
-from typing import Optional
+from .ego import Ego, HumanEgo
+from typing import Optional, Union
 from pydantic import BaseModel
 class Experiencer(BaseModel):
-    ego: Ego
+    ego: Union[Ego, HumanEgo]
     
