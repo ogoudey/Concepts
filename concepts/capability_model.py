@@ -77,6 +77,7 @@ class CapabilityModel(BaseModel):
 
     Forms (one of many in) an aspect of an experience.
     """
+    id: str
     inputs: List[RootIntegratedInput]
     outputs: List[RootIntegratedOutput]
     action_mappings: List[ActionMapping]

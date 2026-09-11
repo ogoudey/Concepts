@@ -25,7 +25,9 @@ experience = SharedExperience(
         (Experiencer(
             ego=HumanEgo(
                 codebase="human_nature",
-                capability_ids="idk",
+                capability_ids=[
+                    "idk"
+                ],
                 experience_dna=ExperienceDNA(
                     value="human"
                 ),
@@ -39,6 +41,7 @@ experience = SharedExperience(
                 id="olin2822",
                 capability_models=[
                     CapabilityModel(
+                        id="idk",
                         inputs=[
                             RootIntegratedInput(
                                 description="everything that's an input to a human brain"
