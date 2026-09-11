@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Dict, Iterator, List, Union, Tuple, Optional
 from pydantic import BaseModel
 import rich
+from .compute_environment import ComputeEnvironment
 
 class RootIntegratedInput(BaseModel):
     description: str
@@ -77,6 +78,7 @@ class CapabilityModel(BaseModel):
 
     Forms (one of many in) an aspect of an experience.
     """
+    compute_environment: ComputeEnvironment
     inputs: List[RootIntegratedInput]
     outputs: List[RootIntegratedOutput]
     action_mappings: List[ActionMapping]

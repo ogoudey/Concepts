@@ -2,7 +2,7 @@ from .compute_environment import ComputeEnvironment
 from typing import Dict, Iterator, Optional, Union, override
 
 class HumanBrain(ComputeEnvironment):
-    name: str
+    id: str
     static: bool = True
     
     @property

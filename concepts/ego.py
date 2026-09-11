@@ -7,3 +7,8 @@ from .experience_dna import ExperienceDNA
 class Ego(BaseModel):
     codebase: Optional[str]
     experience_dna: ExperienceDNA
+
+class HumanEgo(BaseModel):
+    codebase: Optional[str]
+    experience_dna: ExperienceDNA
+    name: str

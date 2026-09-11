@@ -16,27 +16,28 @@ from .capability_model import RootIntegratedOutput, RootIntegratedInput
 from .capability_model import ActionMapping, Input, Action
 from .experience_format import ExperienceFormat
 from .human import HumanBrain
-from .ego import Ego
+from .ego import Ego, HumanEgo
 from .experience_dna import ExperienceDNA
 
 # ----- Example --------- #
 experience = SharedExperience(
     experiencers=[
         (Experiencer(
-            compute_environment=HumanBrain(
-                name="olin2822",
-                ego=Ego(
-                    codebase="human_nature",
-                    experience_dna=ExperienceDNA(
-                        value="human"
-                    )
-                )
+            ego=HumanEgo(
+                codebase="human_nature",
+                experience_dna=ExperienceDNA(
+                    value="human"
+                ),
+                name="olin2822"
             )
         ), ExperienceFormat.UNKNOWN)
     ],
     structure=ExperienceStructure(
         models=[
             CapabilityModel(
+                compute_environment=HumanBrain(
+                    id="olin2822"
+                ),
                 inputs=[
                     RootIntegratedInput(
                         description="everything that's an input to a human brain"

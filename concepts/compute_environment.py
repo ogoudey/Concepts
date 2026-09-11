@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field, field_serializer, field_validator
 from .ego import Ego
 
 class ComputeEnvironment(BaseModel):
-    ego: Ego
     static: bool = False # or, leaf
 
     @property
