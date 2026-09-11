@@ -5,7 +5,7 @@ class Computer(ComputeEnvironment):
     static: bool = True
 
     @staticmethod
-    def identify(self):
+    def identify():
         for path in ["/etc/machine-id", "/var/lib/dbus/machine-id"]:
             try:
                 with open(path, "r") as f:
