@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Dict, Iterator, List, Union, Tuple, Optional
 from pydantic import BaseModel
 import rich
-from .compute_environment import ComputeEnvironment
 
 class RootIntegratedInput(BaseModel):
     description: str
