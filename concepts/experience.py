@@ -25,6 +25,7 @@ experience = SharedExperience(
         (Experiencer(
             ego=HumanEgo(
                 codebase="human_nature",
+                capability_ids="idk",
                 experience_dna=ExperienceDNA(
                     value="human"
                 ),
