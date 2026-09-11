@@ -35,7 +35,7 @@ experience = SharedExperience(
     structure=ExperienceStructure(
         compute_environments=[
             HumanBrain(
-                id="olin2822"
+                id="olin2822",
                 capability_models=[
                     CapabilityModel(
                         inputs=[
