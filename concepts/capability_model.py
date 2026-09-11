@@ -116,6 +116,7 @@ CapabilityModel(
 
 groot_server_capability_model = \
 CapabilityModel(
+    id="gr00t",
     inputs=[
         RootIntegratedInput(
             description="groot inputs"
