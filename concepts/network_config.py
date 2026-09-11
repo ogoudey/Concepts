@@ -11,4 +11,4 @@ class NodeConfig(BaseModel):
     command: List[str]
 
 class NetworkConfig(BaseModel):
-    nodes: List[Tuple[str, NodeConfig]] = []
+    nodes: List[Tuple[str, Optional[NodeConfig]]] = []
