@@ -5,7 +5,8 @@ description = "concepts"
 requires-python = ">=3.9"
 dependencies = [
     "pydantic",
-    "questionary"
+    "questionary",
+    "psutil"
 ]
 
 [build-system]

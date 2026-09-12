@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List, Tuple, Optional
 class NodeConfig(BaseModel):
     """
-    Represents the network configuration for a computer.
+    Represents the network configuration for a computer within a subnet.
     """
     user: str
     ip_address: str
